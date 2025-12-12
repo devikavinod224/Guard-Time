@@ -1,0 +1,10 @@
+{
+"java.configuration.updateBuildConfiguration": "automatic",
+"launch": {
+
+    "configurations": [],
+    "compounds": []
+},
+"prettier.bracketSameLine": true,
+"prettier.vueIndentScriptAndStyle": false
+}

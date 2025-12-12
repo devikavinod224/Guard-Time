@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>189008535826-bislmatjgscrotm097jg3epu8aaa0eo9.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.189008535826-bislmatjgscrotm097jg3epu8aaa0eo9</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>189008535826-u06503h8pbf0bpif3jbl297secvhau60.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAfF28OSaE_Zw0WD1ty35s2Dmk7Bb0x67U</string>
+	<key>GCM_SENDER_ID</key>
+	<string>564536630602</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.guard.time</string>
+	<key>PROJECT_ID</key>
+	<string>guard-time-app</string>
+	<key>STORAGE_BUCKET</key>
+	<string>guard-time-app.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:564536630602:ios:d5c864a9ffdd334a3b75b3</string>
+	<key>DATABASE_URL</key>
+	<string>https://guard-time-app-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>

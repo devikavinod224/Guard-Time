@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "564536630602",
+    "firebase_url": "https://guard-time-app-default-rtdb.firebaseio.com",
+    "project_id": "guard-time-app",
+    "storage_bucket": "guard-time-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564536630602:android:9422b9f0f366bfe63b75b3",
+        "android_client_info": {
+          "package_name": "com.guard.time"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_4U6EBOX1dTi9Bp9jSXsexgUkQiSeom8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
