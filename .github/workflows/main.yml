@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: Windows + Android Build
+    name: Android Build
     runs-on: windows-latest
     steps:
       - name: Checkout Repository
@@ -38,7 +38,7 @@ jobs:
       - name: Build Android APKs
         shell: pwsh
         run: |
-          flutter build apk --release
+          flutter build apk
 
       - name: Rename Android APKs
         run: |
