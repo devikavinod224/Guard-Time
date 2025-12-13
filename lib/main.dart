@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
               : const Locale('ja', 'JP'),
       navigatorKey: AppState().navigatorKey,
       debugShowCheckedModeBanner: false,
-      title: 'Teen Care',
+      title: 'Guard Time',
       themeMode: ThemeMode.light,
       theme: FlexThemeData.light(
           // scheme: FlexScheme.dellGenoa,

@@ -69,6 +69,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '564536630602',
     projectId: 'guard-time-app',
     storageBucket: 'guard-time-app.firebasestorage.app',
-    iosBundleId: 'com.example.parentsApp',
+    iosBundleId: 'com.guard.time',
   );
 }

@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Text(
-                "Welcome to Teen Care",
+                "Welcome to Guard Time",
                 style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
