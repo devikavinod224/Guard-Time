@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:parents_app/pages/BuyDevicesScreen/order_confirmation_screen.dart';
-import 'package:parents_app/utils/api_keys.dart';
+import 'package:parents_app/utils/api.dart';
 import 'package:parents_app/utils/appstate.dart';
 import 'package:parents_app/utils/models.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
