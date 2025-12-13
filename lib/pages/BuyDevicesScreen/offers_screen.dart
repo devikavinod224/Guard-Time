@@ -155,7 +155,7 @@ class _CustomCardState extends State<CustomCard> {
       if (temp) {
         Razorpay razorpay = Razorpay();
         var options = {
-          'key': ApiKeys().username,
+          'key': '',
           'amount': offer.discountedPrice! * 100,
           'order_id': AppState().order!.orderId!,
           'name': 'Parents App',
