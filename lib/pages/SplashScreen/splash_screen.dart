@@ -23,11 +23,13 @@ class _SplashScreenState extends State<SplashScreen> {
     // Check if user data exists in Flutter Secure Storage
     await AppState().initializePersistentVariables();
     UserModel? userData = AppState().user;
-    debugPrint(
-        "This is the user data (from splash screen): ${userData!.toJson().toString()}");
+    
+    // ✅ FIXED: Added null check before calling toJson()
+    debugPrint("This is the user data (from splash screen): ${userData != null ? userData!.toJson().toString() : 'null'}");
+    
     debugPrint(AppState().storedLocale.toString());
 
-    if (userData.id != null && userData.id!.length > 3) {
+    if (userData != null && userData.id != null && userData.id!.length > 3) {
       Get.off(() => const MyHomePage());
     } else {
       Get.off(() => const LoginPage());

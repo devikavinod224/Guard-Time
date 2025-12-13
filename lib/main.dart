@@ -17,29 +17,23 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await AppState().initializePersistentVariables();
+  
+  // Get device IDs once
   final List<String> deviceIds = AppState().fetchDeviceIds();
-
-  if (deviceIds.isNotEmpty) {
-    final imageCacheManager = ImageCacheManager();
-    // Use addPostFrameCallback to ensure the context is available
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) async {
-        imageCacheManager.preloadImages(
-            deviceIds, AppState().navigatorKey.currentContext);
-      },
-    );
-  }
-  runApp(const MyApp());
+  
+  // ✅ Store in AppState instead of passing to MyApp
+  AppState().deviceIdList = deviceIds;
+  
+  runApp(const MyApp()); // Removed parameter
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key}); // Removed deviceIds parameter
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       translations: LocaleString(),
-      // locale: const Locale('en', 'US'),
       locale: (AppState().storedLocale == "en_US")
           ? const Locale('en', 'US')
           : (AppState().storedLocale == "hi_IN")
@@ -50,14 +44,11 @@ class MyApp extends StatelessWidget {
       title: 'Guard Time',
       themeMode: ThemeMode.light,
       theme: FlexThemeData.light(
-          // scheme: FlexScheme.dellGenoa,
           scheme: FlexScheme.greenM3,
-          fontFamily: 'Montserrat'
-          // #304D38
-          ),
+          fontFamily: 'Montserrat'),
       darkTheme: FlexThemeData.dark(
-        scheme: FlexScheme.greenM3, fontFamily: 'Montserrat',
-        // #88B696,
+        scheme: FlexScheme.greenM3, 
+        fontFamily: 'Montserrat',
       ),
       initialRoute: '/splash',
       getPages: [
@@ -78,6 +69,23 @@ class MyApp extends StatelessWidget {
           page: () => const AddAppScreen(),
         ),
       ],
+      
+      // ✅ FIX: Initialize image cache when context is available
+      home: Builder(
+        builder: (context) {
+          // Schedule image preloading for after first frame
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            // ✅ Get deviceIds from AppState instead of constructor
+            final deviceIds = AppState().deviceIdList;
+            if (deviceIds != null && deviceIds.isNotEmpty) {
+              final imageCacheManager = ImageCacheManager();
+              imageCacheManager.preloadImages(deviceIds, context);
+            }
+          });
+          
+          return const SplashScreen();
+        },
+      ),
     );
   }
 }
