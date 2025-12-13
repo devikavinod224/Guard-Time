@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
-import 'package:guard_time/pages/AuthScreen/login.dart';
-import 'package:guard_time/pages/AuthScreen/signup_screen.dart';
-import 'package:guard_time/pages/HomeScreen/navigation_bar.dart';
-import 'package:guard_time/utils/appstate.dart';
-import 'package:guard_time/utils/image_cache_manager.dart';
-import 'package:guard_time/utils/widgets.dart';
+import 'package:parents_app/pages/AuthScreen/login.dart';
+import 'package:parents_app/pages/AuthScreen/signup_screen.dart';
+import 'package:parents_app/pages/HomeScreen/navigation_bar.dart';
+import 'package:parents_app/utils/appstate.dart';
+import 'package:parents_app/utils/image_cache_manager.dart';
+import 'package:parents_app/utils/widgets.dart';
 
 class VerificationScreen extends StatefulWidget {
   final String mobNumber;

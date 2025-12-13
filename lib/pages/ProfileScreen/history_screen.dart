@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:guard_time/utils/appstate.dart';
-import 'package:guard_time/utils/models.dart';
-import 'package:guard_time/utils/widgets.dart';
+import 'package:parents_app/utils/appstate.dart';
+import 'package:parents_app/utils/models.dart';
+import 'package:parents_app/utils/widgets.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});

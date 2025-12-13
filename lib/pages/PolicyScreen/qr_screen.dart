@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guard_time/utils/widgets.dart';
+import 'package:parents_app/utils/widgets.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 
 class QRScreen extends StatefulWidget {

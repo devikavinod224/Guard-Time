@@ -2,15 +2,15 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:guard_time/controller/auth_controller.dart';
-import 'package:guard_time/controller/home_controller.dart';
-import 'package:guard_time/pages/AuthScreen/signin_screen.dart';
-import 'package:guard_time/pages/BuyDevicesScreen/offers_screen.dart';
-import 'package:guard_time/pages/ProfileScreen/history_screen.dart';
-import 'package:guard_time/pages/SplashScreen/splash_screen.dart';
-import 'package:guard_time/utils/appstate.dart';
-import 'package:guard_time/utils/models.dart';
-import 'package:guard_time/utils/widgets.dart';
+import 'package:parents_app/controller/auth_controller.dart';
+import 'package:parents_app/controller/home_controller.dart';
+import 'package:parents_app/pages/AuthScreen/signin_screen.dart';
+import 'package:parents_app/pages/BuyDevicesScreen/offers_screen.dart';
+import 'package:parents_app/pages/ProfileScreen/history_screen.dart';
+import 'package:parents_app/pages/SplashScreen/splash_screen.dart';
+import 'package:parents_app/utils/appstate.dart';
+import 'package:parents_app/utils/models.dart';
+import 'package:parents_app/utils/widgets.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class ProfileScreen extends StatefulWidget {

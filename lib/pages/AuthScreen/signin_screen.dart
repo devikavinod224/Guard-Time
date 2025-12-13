@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:guard_time/pages/AuthScreen/otp_verification_screen.dart';
-import 'package:guard_time/utils/appstate.dart';
-import 'package:guard_time/utils/widgets.dart';
+import 'package:parents_app/pages/AuthScreen/otp_verification_screen.dart';
+import 'package:parents_app/utils/appstate.dart';
+import 'package:parents_app/utils/widgets.dart';
 
 class SignInScreen extends StatefulWidget {
   final String? mobileNumber;

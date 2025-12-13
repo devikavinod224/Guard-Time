@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:guard_time/pages/BuyDevicesScreen/order_screen.dart';
-import 'package:guard_time/utils/appstate.dart';
+import 'package:parents_app/pages/BuyDevicesScreen/order_screen.dart';
+import 'package:parents_app/utils/appstate.dart';
 
 class OrderConfirmationScreen extends StatefulWidget {
   const OrderConfirmationScreen({super.key});

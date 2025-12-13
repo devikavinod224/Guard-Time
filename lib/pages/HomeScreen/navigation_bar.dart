@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:guard_time/pages/HomeScreen/homescreen.dart';
-import 'package:guard_time/pages/ProfileScreen/profile_screen.dart';
+import 'package:parents_app/pages/HomeScreen/homescreen.dart';
+import 'package:parents_app/pages/ProfileScreen/profile_screen.dart';
 import 'package:get/get.dart';
 
 class MyHomePage extends StatefulWidget {

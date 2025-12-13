@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:guard_time/utils/appstate.dart';
+import 'package:parents_app/utils/appstate.dart';
 
 class OvalButton extends StatelessWidget {
   final Color? color;

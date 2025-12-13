@@ -4,13 +4,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:guard_time/controller/home_controller.dart';
-import 'package:guard_time/pages/BuyDevicesScreen/offers_screen.dart';
-import 'package:guard_time/pages/PolicyScreen/policy_screen.dart';
-import 'package:guard_time/utils/appstate.dart';
-import 'package:guard_time/utils/image_cache_manager.dart';
-import 'package:guard_time/utils/models.dart';
-import 'package:guard_time/utils/widgets.dart';
+import 'package:parents_app/controller/home_controller.dart';
+import 'package:parents_app/pages/BuyDevicesScreen/offers_screen.dart';
+import 'package:parents_app/pages/PolicyScreen/policy_screen.dart';
+import 'package:parents_app/utils/appstate.dart';
+import 'package:parents_app/utils/image_cache_manager.dart';
+import 'package:parents_app/utils/models.dart';
+import 'package:parents_app/utils/widgets.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class HomeScreen extends StatefulWidget {

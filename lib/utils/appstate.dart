@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:guard_time/utils/api.dart';
-import 'package:guard_time/utils/models.dart';
+import 'package:parents_app/utils/api.dart';
+import 'package:parents_app/utils/models.dart';
 import 'package:html/parser.dart' as html;
 import 'package:path_provider/path_provider.dart';
 

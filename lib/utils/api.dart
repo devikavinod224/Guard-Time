@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:guard_time/utils/models.dart';
+import 'package:parents_app/utils/models.dart';
 import 'package:http/http.dart' as http;
 
 class API {
@@ -11,7 +11,7 @@ class API {
   static final API _instance = API._();
 
   factory API() => _instance;
-  String baseUrl = "https://www.guard-time.vercel.app/parents/user";
+  String baseUrl = "https://www.teencare.in/parents/user";
 
   dynamic getHeader([String? username, String password = "password"]) async {
     String credentials = "";

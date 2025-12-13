@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:guard_time/utils/api.dart';
+import 'package:parents_app/utils/api.dart';
 
 class ImageCacheManager {
   static final ImageCacheManager _singleton = ImageCacheManager._internal();

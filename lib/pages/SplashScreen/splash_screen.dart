@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:guard_time/pages/AuthScreen/login.dart';
-import 'package:guard_time/pages/HomeScreen/navigation_bar.dart';
-import 'package:guard_time/utils/appstate.dart';
-import 'package:guard_time/utils/models.dart';
+import 'package:parents_app/pages/AuthScreen/login.dart';
+import 'package:parents_app/pages/HomeScreen/navigation_bar.dart';
+import 'package:parents_app/utils/appstate.dart';
+import 'package:parents_app/utils/models.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -23,13 +23,11 @@ class _SplashScreenState extends State<SplashScreen> {
     // Check if user data exists in Flutter Secure Storage
     await AppState().initializePersistentVariables();
     UserModel? userData = AppState().user;
-    
-    // ✅ FIXED: Added null check before calling toJson()
-    debugPrint("This is the user data (from splash screen): ${userData != null ? userData!.toJson().toString() : 'null'}");
-    
+    debugPrint(
+        "This is the user data (from splash screen): ${userData!.toJson().toString()}");
     debugPrint(AppState().storedLocale.toString());
 
-    if (userData != null && userData.id != null && userData.id!.length > 3) {
+    if (userData.id != null && userData.id!.length > 3) {
       Get.off(() => const MyHomePage());
     } else {
       Get.off(() => const LoginPage());

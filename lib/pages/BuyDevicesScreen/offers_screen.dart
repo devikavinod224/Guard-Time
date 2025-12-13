@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:guard_time/pages/BuyDevicesScreen/order_confirmation_screen.dart';
-import 'package:guard_time/utils/api.dart';
-import 'package:guard_time/utils/appstate.dart';
-import 'package:guard_time/utils/models.dart';
+import 'package:parents_app/pages/BuyDevicesScreen/order_confirmation_screen.dart';
+import 'package:parents_app/utils/api_keys.dart';
+import 'package:parents_app/utils/appstate.dart';
+import 'package:parents_app/utils/models.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class SubscriptionScreen extends StatefulWidget {
@@ -155,15 +155,15 @@ class _CustomCardState extends State<CustomCard> {
       if (temp) {
         Razorpay razorpay = Razorpay();
         var options = {
-          'key': '',
+          'key': ApiKeys().username,
           'amount': offer.discountedPrice! * 100,
           'order_id': AppState().order!.orderId!,
           'name': 'Parents App',
           'description': 'For your order purchase',
           'timeout': 600, // in seconds
           'prefill': {
-            'contact': '9061363103',
-            'email': 'devikavinod267@gmail.com'
+            'contact': '9123456789',
+            'email': 'gautambhatejaexample@gmail.com'
           }
         };
         razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlePaymentErrorResponse);

@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:guard_time/utils/appstate.dart';
-import 'package:guard_time/utils/models.dart';
+import 'package:parents_app/utils/appstate.dart';
+import 'package:parents_app/utils/models.dart';
 
 class AuthController extends GetxController {
   RxBool isLoggedIn = false.obs;
