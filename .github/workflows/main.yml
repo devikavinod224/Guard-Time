@@ -12,12 +12,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # ✅ Fixed: Changed to Java 11 for better Flutter compatibility
+      # ✅ FIXED: Changed to Adoptium JDK 11 (Oracle doesn't support JDK 11)
       - name: Setup-Java
         uses: actions/setup-java@v3.12.0
         with:
-          distribution: 'oracle'
-          java-version: '11'  # Changed from 17 to 11
+          distribution: 'temurin'  # Changed from 'oracle' to 'temurin' (Adoptium)
+          java-version: '11'
 
       # ✅ Fixed: Downgraded Flutter to avoid Kotlin compilation bug
       - name: Setup Flutter
@@ -55,13 +55,14 @@ jobs:
           $ver = $vLine.Matches[0].Groups[1].Value.Split('+')[0]
           echo "VERSION=$ver" >> $env:GITHUB_ENV
 
-      # ✅ Fixed: Added clean and using debug build
+      # ✅ Added clean step and using debug build
       - name: Build Android APKs
         shell: pwsh
         run: |
           flutter clean
+          flutter doctor -v  # Debug info
           # Building debug APK since we're using debug signing
-          flutter build apk --debug  # Changed from no flag to --debug
+          flutter build apk --debug
 
       # ✅ Fixed: Updated path to debug APK
       - name: Rename Android APKs
@@ -71,7 +72,7 @@ jobs:
       - name: Upload Artifacts (Windows+Android)
         uses: actions/upload-artifact@v4
         with:
-          name: Debug-Build  # Changed from "Release"
+          name: Debug-Build
           path: |
             build/app/outputs/flutter-apk/guardtime_v${{ env.VERSION }}_debug.apk
 
