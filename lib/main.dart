@@ -12,6 +12,7 @@ import 'package:parents_app/utils/appstate.dart';
 import 'package:parents_app/utils/locale_string.dart';
 import 'utils/image_cache_manager.dart';
 
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
   
   runZonedGuarded(() async {
