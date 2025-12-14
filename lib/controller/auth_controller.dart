@@ -60,6 +60,7 @@ class AuthController extends GetxController {
       isLoading.value = false;
       return true;
     } catch (e) {
+      print("Google Sign In Error: $e");
       isLoading.value = false;
       return false;
     }

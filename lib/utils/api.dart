@@ -11,7 +11,7 @@ class API {
   static final API _instance = API._();
 
   factory API() => _instance;
-  String baseUrl = "https://www.teencare.in/parents/user";
+  String baseUrl = "https://guardtime-backend.vercel.app/api/user";
 
   dynamic getHeader([String? username, String password = "password"]) async {
     String credentials = "";
