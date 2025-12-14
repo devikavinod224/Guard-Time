@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "564536630602",
+    "firebase_url": "https://guard-time-app-default-rtdb.firebaseio.com",
     "project_id": "guard-time-app",
     "storage_bucket": "guard-time-app.firebasestorage.app"
   },
@@ -12,7 +13,12 @@
           "package_name": "com.guard.time"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "564536630602-6ejtnlg8053ncgrnivcmj1sa63iv2q8o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyA_4U6EBOX1dTi9Bp9jSXsexgUkQiSeom8"
@@ -20,7 +26,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "564536630602-6ejtnlg8053ncgrnivcmj1sa63iv2q8o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "564536630602-bl8hv0bcdesarv5d61lmc2nc21bk4qmj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.guard.time"
+              }
+            }
+          ]
         }
       }
     }
