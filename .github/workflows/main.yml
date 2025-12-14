@@ -38,9 +38,14 @@ jobs:
 
       - name: Create Keystore properties
         run: |
-          echo keyPassword=\${{ secrets.KEY_PASSWORD }} > ./android/key.properties
-          echo storePassword=\${{ secrets.STORE_PASSWORD }} >> ./android/key.properties
-          echo keyAlias=\${{ secrets.KEY_ALIAS }} >> ./android/key.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" > ./android/key.properties
+          echo "storePassword=${{ secrets.STORE_PASSWORD }}" >> ./android/key.properties
+          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> ./android/key.properties
+
+      - name: Print Keystore SHA-1 (DEBUG)
+        run: |
+          keytool -list -v -keystore ./android/Guardtime.jks -alias ${{ secrets.KEY_ALIAS }} -storepass ${{ secrets.STORE_PASSWORD }}
+
 
       - name: Install Dependencies
         run: flutter pub get
