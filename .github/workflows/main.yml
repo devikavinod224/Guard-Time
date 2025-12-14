@@ -29,15 +29,18 @@ jobs:
       # ✅ Simplified: Using committed keystore (Ensure android/app/upload-keystore.jks exists)
 
       # ✅ Added: Create key.properties from Secrets
-      - name: Create key.properties
-        shell: pwsh
+      - name: Create keystore file
         run: |
-          $content = "storePassword=${{ secrets.STORE_PASSWORD }}`n" +
-                     "keyPassword=${{ secrets.KEY_PASSWORD }}`n" +
-                     "keyAlias=${{ secrets.KEY_ALIAS }}`n" +
-                     "storeFile=upload-keystore.jks"
-          Set-Content -Path "android/key.properties" -Value $content
-          Write-Host "✅ android/key.properties created"
+          $b64 = "${{ secrets.KEY_STORE }}"
+          $filename = "./android/Guardtime.jks"
+          $bytes = [Convert]::FromBase64String($b64)
+          [IO.File]::WriteAllBytes($filename, $bytes)     
+
+      - name: Create Keystore properties
+        run: |
+          echo keyPassword=\${{ secrets.KEY_PASSWORD }} > ./android/key.properties
+          echo storePassword=\${{ secrets.STORE_PASSWORD }} >> ./android/key.properties
+          echo keyAlias=\${{ secrets.KEY_ALIAS }} >> ./android/key.properties
 
       - name: Install Dependencies
         run: flutter pub get

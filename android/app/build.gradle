@@ -36,21 +36,39 @@ android {
     ndkVersion flutter.ndkVersion
 
     signingConfigs {
-        debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
-        }
-        release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-            storePassword keystoreProperties['storePassword']
+        if (keystorePropertiesFile.exists()) {
+            println("   ✅ key.properties found - configuring release signing")
+            val keystoreProperties = Properties()
+            keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+
+            val keystorePath = keystoreProperties["Echopulse.jks"] as String?
+            val keyAliasValue = keystoreProperties["keyAlias"] as String?
+
+            println("   Keystore file path: $keystorePath")
+            println("   Key alias: $keyAliasValue")
+
+            if (keystorePath != null) {
+                val keystoreFile = file(keystorePath)
+                println("   Keystore file exists: ${keystoreFile.exists()}")
+                println("   Keystore file path: ${keystoreFile.absolutePath}")
+            }
+
+            create("release") {
+                keyAlias = keystoreProperties["keyAlias"] as String?
+                keyPassword = keystoreProperties["keyPassword"] as String?
+                storeFile = rootProject.file("Echopulse.jks")
+                storePassword = keystoreProperties["storePassword"] as String?
+                enableV1Signing = true
+                enableV2Signing = true
+                enableV3Signing = true
+                println("   ✅ Release signing config created successfully")
+            }
+        } else {
+            println("   ❌ key.properties not found - using debug signing")
         }
     }
 
-    compileOptions {
+        compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -73,10 +91,13 @@ android {
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
-        }
-        debug {
-            signingConfig signingConfigs.debug
+            if (keystorePropertiesFile.exists()) {
+                signingConfig = signingConfigs.getByName("release")
+                println("   📦 Release build: Using release signing config")
+            }
+            else{
+                signingConfig = signingConfigs.getByName("debug")
+                println("   📦 Release build: Using debug signing config (no keystore)")
         }
     }
 }
