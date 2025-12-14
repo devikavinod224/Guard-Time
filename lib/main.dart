@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
@@ -11,25 +12,24 @@ import 'package:parents_app/utils/appstate.dart';
 import 'package:parents_app/utils/locale_string.dart';
 import 'utils/image_cache_manager.dart';
 
-void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  await AppState().initializePersistentVariables();
-  final List<String> deviceIds = AppState().fetchDeviceIds();
+  
+  runZonedGuarded(() async {
+    try {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+    } catch (e) {
+      debugPrint("Firebase initialization failed: $e");
+    }
 
-  if (deviceIds.isNotEmpty) {
-    final imageCacheManager = ImageCacheManager();
-    // Use addPostFrameCallback to ensure the context is available
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) async {
-        imageCacheManager.preloadImages(
-            deviceIds, AppState().navigatorKey.currentContext);
-      },
-    );
-  }
-  runApp(const MyApp());
+    // AppState initialization and Image preloading moved to SplashScreen to prevent black screen
+    
+    runApp(const MyApp());
+  }, (error, stack) {
+    debugPrint("Global Error: $error");
+    debugPrint("Stack Trace: $stack");
+  });
 }
 
 class MyApp extends StatelessWidget {
