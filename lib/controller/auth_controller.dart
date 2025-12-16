@@ -32,14 +32,20 @@ class AuthController extends GetxController {
         // id: user.value!.uid.toString(),
         // devices: [], 
         // ignore: prefer_null_aware_operators
-        id: AppState().user != null ? AppState().user!.id : null,
+        id: AppState().user?.id ?? user.value!.uid,
         email: user.value!.email.toString(),
-        firstName: user.value!.displayName!.split(" ")[0],
+        firstName: user.value!.displayName != null &&
+                user.value!.displayName!.contains(" ")
+            ? user.value!.displayName!.split(" ")[0]
+            : user.value!.displayName ?? "Unknown",
         // isSignedIn: true,
-        lastName: user.value!.displayName!.split(" ")[1],
+        lastName: user.value!.displayName != null &&
+                user.value!.displayName!.contains(" ")
+            ? user.value!.displayName!.split(" ").sublist(1).join(" ")
+            : "",
         // otpExpires: DateTime.now(),
         // otpTimestamp: DateTime.now(),
-        phone: AppState().user != null ? AppState().user!.phone ?? "NA" : "NA",
+        phone: AppState().user?.phone ?? "NA",
         // otp: "123456",
       );
       AppState().user = newUser;

@@ -26,37 +26,48 @@ class _VerificationScreenState extends State<VerificationScreen> {
   }
 
   void submitOtp(String otp, context) async {
-    isLoading = true;
-    setState(() {});
-    int responseCode = await AppState().verifyOtp(otp);
-    isLoading = false;
-    setState(() {});
-    if (responseCode > 201) {
-      // error
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("enterCorrectOtp".tr),
-          backgroundColor: Theme.of(context).colorScheme.error));
-    } else if (responseCode == 201) {
-      // new user so navigate to signup screen
-      Get.to(() => SignupScreen(phoneNumber: widget.mobNumber));
-    } else if (responseCode == 200) {
-      // user already exists so navigate to home screen
-      final List<String>? deviceIds = await AppState().fetchDeviceIds();
-      if (deviceIds != null && deviceIds.isNotEmpty) {
-        final imageCacheManager = ImageCacheManager();
-        // Use addPostFrameCallback to ensure the context is available
-        WidgetsBinding.instance.addPostFrameCallback((_) async {
-          await imageCacheManager.preloadImages(deviceIds, context);
-        });
+    try {
+      isLoading = true;
+      setState(() {});
+
+      if (AppState().userPhone == null || AppState().userPhone!.isEmpty) {
+        AppState().userPhone = widget.mobNumber;
       }
-      Get.offAll(() => const MyHomePage());
-    } else {
+
+      int responseCode = await AppState().verifyOtp(otp);
+      isLoading = false;
+      setState(() {});
+      if (responseCode > 201) {
+        // error
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("enterCorrectOtp".tr),
+            backgroundColor: Theme.of(context).colorScheme.error));
+      } else if (responseCode == 201) {
+        // new user so navigate to signup screen
+        Get.to(() => SignupScreen(phoneNumber: widget.mobNumber));
+      } else if (responseCode == 200) {
+        // user already exists so navigate to home screen
+        final List<String>? deviceIds = await AppState().fetchDeviceIds();
+        if (deviceIds != null && deviceIds.isNotEmpty) {
+          final imageCacheManager = ImageCacheManager();
+          // Use addPostFrameCallback to ensure the context is available
+          WidgetsBinding.instance.addPostFrameCallback((_) async {
+            await imageCacheManager.preloadImages(deviceIds, context);
+          });
+        }
+        Get.offAll(() => const MyHomePage());
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Something went wrong".tr),
+            backgroundColor: Theme.of(context).colorScheme.error));
+      }
+    } catch (e) {
+      isLoading = false;
+      setState(() {});
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Something went wrong".tr),
+          content: Text("An error occurred: $e"),
           backgroundColor: Theme.of(context).colorScheme.error));
     }
-    isLoading = false;
-    setState(() {});
   }
 
   @override
