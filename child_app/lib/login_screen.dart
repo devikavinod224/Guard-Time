@@ -22,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Login Failed: $e')),
+        SnackBar(content: Text('Your Email and Pass Not associated with this app')),
       );
     } finally {
       if (mounted) setState(() => _isLoading = false);

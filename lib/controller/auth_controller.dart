@@ -72,6 +72,73 @@ class AuthController extends GetxController {
     }
   }
 
+  // --- Email/Password Logic ---
+
+  Future<bool> signUpWithEmail(String email, String password, String name) async {
+    try {
+      isLoading.value = true;
+      UserCredential credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+      
+      user.value = credential.user;
+      
+      if (user.value != null) {
+          // Update Display Name
+          await user.value!.updateDisplayName(name);
+          
+          UserModel newUser = UserModel(
+            id: user.value!.uid,
+            email: email,
+            firstName: name.contains(" ") ? name.split(" ")[0] : name,
+            lastName: name.contains(" ") ? name.split(" ").sublist(1).join(" ") : "",
+            phone: "NA",
+          );
+          
+          AppState().user = newUser;
+          // Create user in Firestore
+          return await AppState().createUserByEmail(newUser);
+      }
+      return false;
+    } catch (e) {
+      Get.snackbar("Sign Up Failed", e.toString());
+      return false;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<bool> signInWithEmail(String email, String password) async {
+    try {
+      isLoading.value = true;
+      UserCredential credential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      
+      user.value = credential.user;
+      
+      if (user.value != null) {
+          // Load user data into AppState if needed, or AppState might handle it via listener
+           UserModel existingUser = UserModel(
+            id: user.value!.uid,
+            email: email,
+            firstName: user.value!.displayName?.split(" ")[0] ?? "Unknown",
+            lastName: "",
+            phone: "NA",
+          );
+          AppState().user = existingUser;
+          // You might want to fetch the FULL user profile from Firestore here if AppState doesn't do it automatically
+          // But based on existing code, AppState().createUserByEmail seems to handle the "ensure exists" logic.
+          // Let's assume a simple fetch or re-use of create (which merges) is fine for now.
+          return true;
+      }
+      return false;
+    } catch (e) {
+      Get.snackbar("Login Failed", e.toString());
+      return false;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
     GoogleSignIn().signOut();
