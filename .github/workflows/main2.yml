@@ -81,7 +81,7 @@ jobs:
         with:
           artifacts: |
             child_app/build/app/outputs/flutter-apk/childapp_v${{ env.VERSION }}_release.apk
-          tag: child_v${{ env.VERSION }}
+          tag: v${{ env.VERSION }}
           token: ${{secrets.SECRET_KEY}}
           allowUpdates: true
           omitBody: true
