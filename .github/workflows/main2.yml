@@ -3,9 +3,6 @@ name: "Child App Build & Release"
 on:
   workflow_dispatch:
     branches: main
-  push:
-    paths:
-      - 'child_app/**'
 
 jobs:
   build:
