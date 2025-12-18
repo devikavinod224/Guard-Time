@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:parents_app/controller/home_controller.dart';
-import 'package:parents_app/pages/BuyDevicesScreen/offers_screen.dart';
 import 'package:parents_app/pages/PolicyScreen/policy_screen.dart';
 import 'package:parents_app/utils/appstate.dart';
 import 'package:parents_app/utils/image_cache_manager.dart';
@@ -26,30 +25,27 @@ class _HomeScreenState extends State<HomeScreen> {
   // final homeController = Get.put(HomeController());
   late TutorialCoachMark tutorialCoachMark;
   final GlobalKey _one = GlobalKey();
-  final GlobalKey _two = GlobalKey();
+  final GlobalKey _two = GlobalKey(); // Kept for tutorial structure but unused
   final GlobalKey _three = GlobalKey();
   bool isDeviceAdded = false;
   final List<String>? deviceIds = AppState().fetchDeviceIds();
   final imageCacheManager = ImageCacheManager();
+  
   @override
   void initState() {
     fetchDevices();
-    createTutorial();
-    imageCacheManager.preloadImages(
-        deviceIds!, AppState().navigatorKey.currentContext);
-    if (HomeController.isFirstTime.value) {
-      showTutorial();
-    }
     super.initState();
   }
 
   // Function to fetch devices from the API and add them to the stream
   Future<bool> fetchDevices() async {
     try {
+      if (AppState().user == null) return false;
+      
       List<DeviceModel?> fetchedDevices = [];
       var value = await AppState().getDevices();
       if (value) {
-        fetchedDevices = AppState().devices!;
+        fetchedDevices = AppState().devices ?? [];
       }
       _deviceStreamController.add(fetchedDevices
           .where((device) => device != null)
@@ -61,14 +57,66 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void addNewDevice() async {
+    TextEditingController nameController = TextEditingController();
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Add New Device"),
+        content: TextField(
+          controller: nameController,
+          decoration: const InputDecoration(hintText: "Device Nickname (e.g. Kid's Tablet)"),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancel"),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              if (nameController.text.isNotEmpty) {
+                DeviceModel newDevice = DeviceModel(
+                  id: DateTime.now().millisecondsSinceEpoch.toString(),
+                  name: nameController.text,
+                  nickname: nameController.text,
+                  brand: "Generic",
+                  model: "Device",
+                  policy: PolicyModel(
+                    id: "policy_${DateTime.now().millisecondsSinceEpoch}",
+                    name: "Default Policy",
+                    applications: [],
+                  ),
+                  apps: [],
+                );
+                
+                // Save to currently selected device slot in AppState so updateDevice uses it
+                AppState().device = newDevice; 
+                
+                bool success = await AppState().updateDevice();
+                if (success) {
+                  fetchDevices();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Device Added Successfully")),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                     SnackBar(content: Text("Failed to add device: ${AppState().message}")),
+                  );
+                }
+              }
+            },
+            child: const Text("Add"),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   void dispose() {
     _deviceStreamController.close();
     super.dispose();
-  }
-
-  void showTutorial() {
-    tutorialCoachMark.show(context: context);
   }
 
   @override
@@ -98,30 +146,15 @@ class _HomeScreenState extends State<HomeScreen> {
           title: Text(
               "${'helloMessage'.tr}, ${AppState().user!.firstName} ${AppState().user!.lastName ?? ""}"),
           actions: [
-            IconButton(
-              onPressed: () {
-                createTutorial();
-                showTutorial();
-              },
-              icon: const Icon(
-                Icons.help_outline,
-              ),
-            ),
-            IconButton(
-              key: _two,
-              color: Colors.white,
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const SubscriptionScreen(),
-                ));
-              },
-              icon: const Icon(
-                Icons.attach_money_rounded,
-              ),
-            ),
+             // Removed Help and Subscription icons for cleaner UI or kept only useful ones
           ],
         ),
         resizeToAvoidBottomInset: true,
+        floatingActionButton: FloatingActionButton(
+          onPressed: addNewDevice,
+          child: const Icon(Icons.add),
+          tooltip: 'Add Device',
+        ),
         body: RefreshIndicator(
           onRefresh: fetchDevices,
           child: Padding(
@@ -162,31 +195,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       const SizedBox(height: 50),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const SubscriptionScreen(),
-                          ));
-                        },
-                        child: Container(
-                          key: _three,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          height: MediaQuery.of(context).size.height * 0.06,
-                          width: MediaQuery.of(context).size.width * 0.4,
-                          margin: const EdgeInsets.symmetric(horizontal: 40),
-                          child: Text(
-                            "buyDevice".tr,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ),
+                       // Replaced Buy Device with simple text or hidden
+                       Center(child: Text("Tap + to add a device", style: TextStyle(color: Colors.grey))),
                     ],
                   );
                 } else {
@@ -198,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     // itemCount: 50,
                     itemBuilder: (context, index) {
                       ImageProvider<Object> deviceImage;
-                      if (index + 1 < AppState().deviceIdList!.length) {
+                      if (AppState().deviceIdList != null && index + 1 < AppState().deviceIdList!.length) {
                         deviceImage = ImageCacheManager().getImageForDevice(
                             AppState().deviceIdList![index + 1]);
                       } else {
@@ -207,46 +217,29 @@ class _HomeScreenState extends State<HomeScreen> {
                       }
                       AppState().device = devices[index];
                       DeviceModel? device = AppState().device;
-                      if (index == 0) {
-                        return DeviceListTile(
-                          key: _one,
-                          image: deviceImage,
-                          deviceBrand: device!.brand ?? "",
-                          deviceModel: device.model ?? "",
-                          deviceName: device.nickname ?? "",
-                          onTap: () async {
-                            AppState().device = devices[index];
-                            AppState().device!.policy = device.policy;
-                            AppState().index = index;
-                            await Get.to(() => PolicyScreen(
-                                index: index,
-                                device: devices[index],
-                                policy: devices[index].policy));
+                      
+                      return DeviceListTile(
+                        key: index == 0 ? _one : null,
+                        image: deviceImage,
+                        deviceBrand: device!.brand ?? "Generic",
+                        deviceModel: device.model ?? "Device",
+                        deviceName: device.nickname ?? "My Device",
+                        onTap: () async {
+                          AppState().device = devices[index];
+                          // Check if policy is null and provide default
+                          if (AppState().device!.policy == null) {
+                             AppState().device!.policy = PolicyModel(name: "Default");
+                          }
+                          AppState().index = index;
+                          await Get.to(() => PolicyScreen(
+                              index: index,
+                              device: devices[index],
+                              policy: devices[index].policy!));
 
-                            setState(() {});
-                            // }
-                          },
-                        );
-                      } else {
-                        return DeviceListTile(
-                          image: deviceImage,
-                          deviceBrand: device!.brand ?? "",
-                          deviceModel: device.model ?? "",
-                          deviceName: device.nickname ?? "",
-                          onTap: () async {
-                            AppState().device = devices[index];
-                            AppState().device!.policy = device.policy;
-                            AppState().index = index;
-                            await Get.to(() => PolicyScreen(
-                                index: index,
-                                device: devices[index],
-                                policy: devices[index].policy));
-
-                            setState(() {});
-                            // }
-                          },
-                        );
-                      }
+                          setState(() {});
+                          // }
+                        },
+                      );
                     },
                   );
                 }
@@ -256,89 +249,5 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-  }
-
-  void createTutorial() {
-    tutorialCoachMark = TutorialCoachMark(
-      targets: _createTargets(),
-      colorShadow: Colors.red,
-      textSkip: "SKIP",
-      paddingFocus: 10,
-      opacityShadow: 0.5,
-      imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-      onFinish: () {},
-      onClickTarget: (target) {},
-      onClickTargetWithTapPosition: (target, tapDetails) {},
-      onClickOverlay: (target) {},
-      onSkip: () {
-        return true;
-      },
-    );
-  }
-
-  List<TargetFocus> _createTargets() {
-    List<TargetFocus> targets = [];
-    if (isDeviceAdded) {
-      targets.add(
-        TargetFocus(
-          identify: "device tile",
-          keyTarget: _one,
-          color: Colors.cyanAccent,
-          alignSkip: Alignment.bottomRight,
-          shape: ShapeLightFocus.RRect,
-          enableOverlayTab: true,
-          contents: [
-            TargetContent(
-              align: ContentAlign.bottom,
-              builder: (context, controller) {
-                return const Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      "Tap here to edit the properties of the device",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
-          ],
-        ),
-      );
-    }
-    targets.add(
-      TargetFocus(
-        identify: "dollar",
-        keyTarget: _two,
-        color: Colors.cyanAccent,
-        alignSkip: Alignment.bottomRight,
-        shape: ShapeLightFocus.Circle,
-        enableOverlayTab: true,
-        contents: [
-          TargetContent(
-            align: ContentAlign.bottom,
-            builder: (context, controller) {
-              return const Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Tap here to buy subsciption of the application",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
-        ],
-      ),
-    );
-
-    return targets;
   }
 }
