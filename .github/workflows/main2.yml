@@ -1,0 +1,91 @@
+name: "Child App Build & Release"
+
+on:
+  workflow_dispatch:
+    branches: main
+  push:
+    paths:
+      - 'child_app/**'
+
+jobs:
+  build:
+    name: Child App Android Build
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: ./child_app
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup-Java
+        uses: actions/setup-java@v3.12.0
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.6'
+          channel: 'stable'
+
+      # Secrets are repo-level, so we access them the same way
+      # But we need to write the key files INTTO the child_app/android directory
+      - name: Create keystore file
+        run: |
+          $b64 = "${{ secrets.KEY_STORE }}"
+          $filename = "./android/Guardtime.jks"
+          $bytes = [Convert]::FromBase64String($b64)
+          [IO.File]::WriteAllBytes($filename, $bytes)     
+
+      - name: Create Keystore properties
+        run: |
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" > ./android/key.properties
+          echo "storePassword=${{ secrets.STORE_PASSWORD }}" >> ./android/key.properties
+          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> ./android/key.properties
+
+      - name: Print Keystore SHA-1 (DEBUG)
+        run: |
+          keytool -list -v -keystore ./android/Guardtime.jks -alias "${{ secrets.KEY_ALIAS }}" -storepass "${{ secrets.STORE_PASSWORD }}"
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Extract version from pubspec.yaml
+        shell: powershell
+        run: |
+          $vLine = Select-String -Path pubspec.yaml -Pattern '^version:\s*(\S+)' | Select-Object -First 1
+          if (-not $vLine) { Write-Error 'version not found in pubspec.yaml'; exit 1 }
+          $ver = $vLine.Matches[0].Groups[1].Value.Split('+')[0]
+          echo "VERSION=$ver" >> $env:GITHUB_ENV
+
+      - name: Build Android APKs
+        shell: pwsh
+        run: |
+          flutter clean
+          flutter build apk --release
+
+      - name: Rename Android APKs
+        # Working directory is ./child_app, so build/app/... is relative to that
+        run: |
+          Rename-Item -Path "build/app/outputs/flutter-apk/app-release.apk" -NewName "childapp_v${{ env.VERSION }}_release.apk"
+
+      - name: Upload Artifacts (Windows+Android)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ChildApp-Release-Build
+          path: |
+            child_app/build/app/outputs/flutter-apk/childapp_v${{ env.VERSION }}_release.apk
+
+      - name: Create Release (Windows+Android)
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: |
+            child_app/build/app/outputs/flutter-apk/childapp_v${{ env.VERSION }}_release.apk
+          tag: child_v${{ env.VERSION }}
+          token: ${{secrets.SECRET_KEY}}
+          allowUpdates: true
+          omitBody: true
+          prerelease: false
