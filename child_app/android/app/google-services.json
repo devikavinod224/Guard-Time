@@ -1,0 +1,91 @@
+{
+  "project_info": {
+    "project_number": "564536630602",
+    "firebase_url": "https://guard-time-app-default-rtdb.firebaseio.com",
+    "project_id": "guard-time-app",
+    "storage_bucket": "guard-time-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564536630602:android:9422b9f0f366bfe63b75b3",
+        "android_client_info": {
+          "package_name": "com.guard.time"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "564536630602-rp017mir3ggecra3rijjiuj0omt7n1ha.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.guard.time",
+            "certificate_hash": "2ea38a9efdcce82ed59e5d7bd85544c5b0056c00"
+          }
+        },
+        {
+          "client_id": "564536630602-6ejtnlg8053ncgrnivcmj1sa63iv2q8o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_4U6EBOX1dTi9Bp9jSXsexgUkQiSeom8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "564536630602-6ejtnlg8053ncgrnivcmj1sa63iv2q8o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "564536630602-bl8hv0bcdesarv5d61lmc2nc21bk4qmj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.guard.time"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564536630602:android:5d690d865bcd82da3b75b3",
+        "android_client_info": {
+          "package_name": "com.kid.guard.time"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "564536630602-6ejtnlg8053ncgrnivcmj1sa63iv2q8o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_4U6EBOX1dTi9Bp9jSXsexgUkQiSeom8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "564536630602-6ejtnlg8053ncgrnivcmj1sa63iv2q8o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "564536630602-bl8hv0bcdesarv5d61lmc2nc21bk4qmj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.guard.time"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,10 +1,10 @@
-package com.mansourappdevelopment.androidapp.kidsafe
+package com.kid.guard.time
 
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import io.flutter.embedding.android.FlutterActivity
-import com.mansourappdevelopment.androidapp.kidsafe.services.MainForegroundService
+import com.kid.guard.time.services.MainForegroundService
 
 class MainActivity: FlutterActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
