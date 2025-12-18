@@ -149,6 +149,9 @@ class AppState {
     } else {
       messageColor = Colors.green;
       message = res['message'];
+      if (res['body'] is! Map<String, dynamic>) {
+        return res['statusCode']; // Or handle as error
+      }
       if (user == null || user!.email == null || user!.email == "") {
         user = UserModel.fromMap(res['body']);
       } else {
@@ -167,6 +170,11 @@ class AppState {
       message = res['message'];
       return false;
     } else {
+      if (res['body'] is! Map<String, dynamic>) {
+        messageColor = Colors.red;
+        message = "Invalid server response";
+        return false;
+      }
       messageColor = Colors.green;
       message = "Welcome! ${user!.firstName} ${user!.lastName}";
       user = UserModel.fromMap(res['body']);
@@ -181,6 +189,11 @@ class AppState {
       message = res['message'];
       return false;
     } else {
+      if (res['body'] is! Map<String, dynamic>) {
+        messageColor = Colors.red;
+        message = "Invalid server response";
+        return false;
+      }
       messageColor = Colors.green;
       message = "Welcome! ${user!.firstName} ${user!.lastName}";
       user = UserModel.fromMap(res['body']);
@@ -195,6 +208,11 @@ class AppState {
       message = res['message'];
       return false;
     } else {
+      if (res['body'] is! Map<String, dynamic>) {
+        messageColor = Colors.red;
+        message = "Invalid server response";
+        return false;
+      }
       messageColor = Colors.green;
       message = "Welcome! ${user!.firstName} ${user!.lastName}";
       user = UserModel.fromJson(res['body']);
