@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:parents_app/controller/auth_controller.dart';
 import 'package:parents_app/controller/home_controller.dart';
-import 'package:parents_app/pages/AuthScreen/signin_screen.dart';
+import 'package:parents_app/pages/AuthScreen/login.dart';
 import 'package:parents_app/pages/BuyDevicesScreen/offers_screen.dart';
 import 'package:parents_app/pages/ProfileScreen/history_screen.dart';
 import 'package:parents_app/pages/SplashScreen/splash_screen.dart';
@@ -54,9 +54,9 @@ class ProfileScreenState extends State<ProfileScreen> {
     var value = await AppState().getOrderHistory();
     if (value) {
       if (!mounted) return;
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const HistoryScreen(),
-      ));
+      Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (context) => const HistoryScreen()));
     } else {
       Get.snackbar("Error", "Error fetching order history");
     }
@@ -71,10 +71,12 @@ class ProfileScreenState extends State<ProfileScreen> {
       } else {
         fetchedDevices = AppState().devices!;
       }
-      _deviceStreamController.add(fetchedDevices
-          .where((device) => device != null)
-          .cast<DeviceModel>()
-          .toList());
+      _deviceStreamController.add(
+        fetchedDevices
+            .where((device) => device != null)
+            .cast<DeviceModel>()
+            .toList(),
+      );
     } catch (error) {
       debugPrint('Error fetching devices: $error');
     }
@@ -92,7 +94,8 @@ class ProfileScreenState extends State<ProfileScreen> {
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute<void>(
-          builder: (BuildContext context) => const SplashScreen()),
+        builder: (BuildContext context) => const SplashScreen(),
+      ),
       ModalRoute.withName('/splash'),
     );
   }
@@ -135,41 +138,27 @@ class ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        title: HeadingText(
-          text: 'profile'.tr,
-          size: 20,
-        ),
+        title: HeadingText(text: 'profile'.tr, size: 20),
         actions: [
           Row(
             children: [
-              const Icon(
-                Icons.language,
-                color: Colors.white,
-              ),
+              const Icon(Icons.language, color: Colors.white),
               const SizedBox(width: 5),
               DropdownButton(
                 dropdownColor: Theme.of(context).primaryColor,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                ),
+                style: const TextStyle(color: Colors.white, fontSize: 16),
                 iconEnabledColor: Colors.white,
-                underline: Container(
-                  color: Colors.white,
-                  height: 1,
-                ),
+                underline: Container(color: Colors.white, height: 1),
                 key: _one,
                 value: langValue,
-                items: <String>[
-                  "EN",
-                  "HI",
-                  "JA",
-                ].map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
+                items: <String>["EN", "HI", "JA"].map<DropdownMenuItem<String>>(
+                  (String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  },
+                ).toList(),
                 onChanged: (value) {
                   langValue = value.toString();
                   if (value == 'EN') {
@@ -194,9 +183,7 @@ class ProfileScreenState extends State<ProfileScreen> {
               createTutorial();
               showTutorial();
             },
-            icon: const Icon(
-              Icons.help_outline,
-            ),
+            icon: const Icon(Icons.help_outline),
           ),
         ],
       ),
@@ -207,8 +194,10 @@ class ProfileScreenState extends State<ProfileScreen> {
           child: Column(
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 32),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 32,
+                ),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -262,7 +251,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                         LinkPhoneOrEmail(
                           text: 'linkPhone'.tr,
                           onPressed: () {
-                            Get.off(() => const SignInScreen());
+                            Get.off(() => const LoginPage());
                             setState(() {});
                           },
                         ),
@@ -284,12 +273,16 @@ class ProfileScreenState extends State<ProfileScreen> {
                             var value = await controller.signInWithGoogle();
                             if (value) {
                               Get.snackbar(
-                                  "Success", "Email verified successfully");
+                                "Success",
+                                "Email verified successfully",
+                              );
                             } else {
                               // Get.snackbar(
                               //     "Error", "Error signing in with Google");
                               Get.snackbar(
-                                  "Error", AppState().message.toString());
+                                "Error",
+                                AppState().message.toString(),
+                              );
                             }
                           },
                         ),
@@ -322,7 +315,8 @@ class ProfileScreenState extends State<ProfileScreen> {
                   } else if (snapshot.hasError) {
                     // Handle errors here
                     return Center(
-                        child: Text('${"errorStream"}.tr: ${snapshot.error}'));
+                      child: Text('${"errorStream"}.tr: ${snapshot.error}'),
+                    );
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     // Show a message when there is no data
                     return Column(
@@ -332,9 +326,12 @@ class ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(height: 20),
                         GestureDetector(
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const SubscriptionScreen(),
-                            ));
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const SubscriptionScreen(),
+                              ),
+                            );
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -387,8 +384,10 @@ class ProfileScreenState extends State<ProfileScreen> {
                 },
               ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 32),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 32,
+                ),
                 child: Column(
                   children: [
                     const Divider(thickness: 2),
@@ -475,9 +474,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                 children: <Widget>[
                   Text(
                     "Tap here to change the language of the application.",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+                    style: TextStyle(color: Colors.white),
                   ),
                 ],
               );
@@ -504,9 +501,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                 children: <Widget>[
                   Text(
                     "Tap here to change your profile picture.",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+                    style: TextStyle(color: Colors.white),
                   ),
                 ],
               );
@@ -534,9 +529,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                 children: <Widget>[
                   Text(
                     "Tap here to modify your personal fields.",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+                    style: TextStyle(color: Colors.white),
                   ),
                 ],
               );
@@ -563,9 +556,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                 children: <Widget>[
                   Text(
                     "Tap here to save your modified changes.",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+                    style: TextStyle(color: Colors.white),
                   ),
                 ],
               );
@@ -592,9 +583,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                 children: <Widget>[
                   Text(
                     "Tap here to logout from the application.",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+                    style: TextStyle(color: Colors.white),
                   ),
                 ],
               );
